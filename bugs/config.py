@@ -1,22 +1,33 @@
-# 文件名: bugs/config.py
-"""
-配置文件 - 集中管理所有爬虫配置
-"""
+"""福州大学通知公告爬虫配置文件"""
 
 # 数据库配置
 DB_NAME = "announcements.db"
 TABLE_NAME = "seen_announcements"
 
-# 请求配置
+# HTTP 请求配置
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 REQUEST_TIMEOUT = 20
 
-# 爬虫和通知配置
-CRAWL_INTERVAL_SECONDS = 60 * 10  # 每10分钟检查一次
+# 爬取间隔时间
+JWC_CRAWL_INTERVAL_SECONDS = 60 * 1
+CRAWL_INTERVAL_SECONDS = 60 * 60
 
-# 目标：各学院的"通知公告"页面
+# 教务处目标配置
+TARGET_JWC_PAGE = [
+    {
+        'college': '教务处',
+        'base_url': 'https://jwch.fzu.edu.cn/',
+        'url': 'https://jwch.fzu.edu.cn/jxtz.htm',
+        'list_xpath': "//ul[@class='list-gl']/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+    }
+]
+
+# 学院通知公告目标配置
 TARGET_ANNOUNCEMENT_PAGES = [
     {
         'college': '电气工程与自动化学院', 
@@ -24,7 +35,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'url': 'https://dqxy.fzu.edu.cn/tzgg.htm',
         'list_xpath': "//div[@class='r-content']/ul/li",
         'title_xpath': "./a/@title",
-        'href_xpath': "./a/@href",  # 明确指定链接的xpath
+        'href_xpath': "./a/@href",
         'category': '通知公告'
     },
     {
@@ -33,7 +44,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'url': 'https://jxxy.fzu.edu.cn/fwzn/tzgg.htm',
         'list_xpath': "//div[@class='ny-list']/ul/li",
         'title_xpath': "./a/text()",
-        'href_xpath': "./a/@href",  # 明确指定链接的xpath
+        'href_xpath': "./a/@href",
         'category': '通知公告'
     },
     {
@@ -41,8 +52,8 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'base_url': 'https://math.fzu.edu.cn/',
         'url': 'https://math.fzu.edu.cn/xydt/tzgg.htm',
         'list_xpath': "//div[contains(@class, 'new_list3')]/dl/dd",
-        'title_xpath': "./a[2]/@title",  # 第二个a标签的title属性
-        'href_xpath': "./a[2]/@href",   # 第二个a标签的href属性
+        'title_xpath': "./a[2]/@title",
+        'href_xpath': "./a[2]/@href",
         'category': '通知公告'
     },
     {
@@ -70,16 +81,86 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'href_xpath': "./a/@href",
     },
     {
-    'college': '经济与管理学院',
-    'base_url': 'https://jgxy.fzu.edu.cn/',
-    'url': 'https://jgxy.fzu.edu.cn/tzgg.htm',
-    'list_xpath': "//section[@class='TextList bgss']//ul/li", 
-    'title_xpath': "./a/p/text()", 
-    'href_xpath': "./a/@href",
+        'college': '经济与管理学院',
+        'base_url': 'https://jgxy.fzu.edu.cn/',
+        'url': 'https://jgxy.fzu.edu.cn/tzgg.htm',
+        'list_xpath': "//section[@class='TextList bgss']//ul/li", 
+        'title_xpath': "./a/p/text()", 
+        'href_xpath': "./a/@href",
     },
-
+    {
+        'college': '生物科学与工程学院',
+        'base_url': 'https://bio.fzu.edu.cn/',
+        'url': 'https://bio.fzu.edu.cn/tzgg.htm',
+        'list_xpath': "//div[@class='list_main_content']/ul/li", 
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+    },
+    {
+        'college': '外国语学院',
+        'base_url': 'https://sfl.fzu.edu.cn/',
+        'url': 'https://sfl.fzu.edu.cn/index/tzgg.htm',
+        'list_xpath': "//div[@class='notice']/ul/li",
+        'title_xpath': "./a/text()",
+        'href_xpath': "./a/@href",
+    },
+    {
+        'college': '计算机与大数据学院',
+        'base_url': 'https://ccds.fzu.edu.cn/',
+        'url': 'https://ccds.fzu.edu.cn/xwzx/xytz.htm',
+        'list_xpath': "//div[contains(@class, 'new_list3')]/dl/dd",
+        'title_xpath': "./a[2]/@title",
+        'href_xpath': "./a[2]/@href",
+    },
+        {
+        'college': '物理与信息工程学院',
+        'base_url': 'https://wx.fzu.edu.cn/',
+        'url': 'https://wx.fzu.edu.cn/tzgg/xytz.htm',
+        'list_xpath': "//div[@class='text-list']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+    },
+    {
+        'college': '化学学院',
+        'base_url': 'https://chem.fzu.edu.cn/',
+        'url': 'https://chem.fzu.edu.cn/xwzx/tzgg.htm',
+        'list_xpath': "//ul[@class='txtList']/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+    },
+    # 建筑学院没有“通知公告”
+    {
+        'college': '紫金地质与矿业学院',
+        'base_url': 'https://zjxy.fzu.edu.cn/',
+        'url': 'https://zjxy.fzu.edu.cn/tzgg.htm',
+        'list_xpath': "//div[@class='wznr']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+    },
+    # 厦门工艺美院不是本部，不考虑
+    # 材料学院暂且略过
+    # 法学院也是，先略过
+    # 至诚学院不是本部，不考虑
+    # 先进制造学院不是本部，不考虑
+    # 继续教育学院不知道是什么，不考虑
+    # 马克思主义学院为研究生学院，不考虑
+    {
+        'college': '人文社会科学学院',
+        'base_url': 'https://renwen.fzu.edu.cn/',
+        'url': 'https://renwen.fzu.edu.cn/tzgg.htm',
+        'list_xpath': "//div[@class='list-text']/ul/li",
+        'title_xpath': ".//div[@class='text']/p/text()",
+        'href_xpath': "./a/@href",
+    },
+    # 梅努斯国际工程学院不是本部，不考虑
+    # 医学院的通知公告有3个，很神秘，暂时不考虑
+    # 未来膜学院没有自己官网
+    # 医工交叉研学院为研究生学院，不考虑
+    # 体育教学研究部非学生，不考虑
 ]
 
-# 为了兼容性，保留TARGETS别名
-TARGETS = TARGET_ANNOUNCEMENT_PAGES
+# 本科教学页面
+TARGET_UNDERGRAD_PAGES = []
 
+# 学院目标合集
+TARGETS_COLLEGE = TARGET_ANNOUNCEMENT_PAGES
