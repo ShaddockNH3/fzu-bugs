@@ -11,6 +11,10 @@ HEADERS = {
 }
 REQUEST_TIMEOUT = 20
 
+# Webhook 通知配置
+ENABLE_WEBHOOK_NOTIFICATION = False  # 设置为 True 开启HTTP通知
+NOTIFICATION_WEBHOOK_URL = "http://example.com/webhook"
+
 # 爬取间隔时间
 JWC_CRAWL_INTERVAL_SECONDS = 60 * 1
 CRAWL_INTERVAL_SECONDS = 60 * 60

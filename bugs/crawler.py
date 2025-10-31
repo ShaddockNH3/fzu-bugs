@@ -4,9 +4,8 @@ import requests
 from lxml import html
 from urllib.parse import urljoin
 
-from .config import HEADERS, REQUEST_TIMEOUT
+from .config import HEADERS, REQUEST_TIMEOUT, ENABLE_WEBHOOK_NOTIFICATION, NOTIFICATION_WEBHOOK_URL
 from .database import DatabaseManager
-
 
 class WebCrawler:
     """大学通知公告爬虫
@@ -123,14 +122,38 @@ class WebCrawler:
     def send_notification(self, article_info):
         """发送新文章通知
         
+        通过HTTP POST请求将新文章信息以JSON格式发送到指定的webhook地址。
+        
         参数:
             article_info: 文章信息字典
-            
-        注意:
-            这是一个占位符，需要替换为实际的通知逻辑
-            (微信、钉钉、邮件等)
         """
-        pass
+        if not ENABLE_WEBHOOK_NOTIFICATION or not NOTIFICATION_WEBHOOK_URL:
+            return
+        
+        payload = {
+            "title": f"【{article_info['college']}】{article_info['title']}",
+            "content": article_info['url']
+        }
+        
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        
+        self._print(f"  -> 正在发送HTTP通知: {payload['title']}")
+        
+        try:
+            response = requests.post(
+                NOTIFICATION_WEBHOOK_URL, 
+                json=payload, 
+                headers=headers, 
+                timeout=REQUEST_TIMEOUT
+            )
+            if response.status_code == 200:
+                self._print(f"  -> 通知发送成功！")
+            else:
+                self._print(f"  -> 警告: 通知发送失败，状态码: {response.status_code}, 响应: {response.text}")
+        except Exception as e:
+            self._print(f"  -> 错误: 发送HTTP通知时发生异常: {e}")
     
     def crawl_target(self, target):
         """爬取单个目标
