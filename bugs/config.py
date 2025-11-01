@@ -28,6 +28,7 @@ TARGET_JWC_PAGE = [
         'list_xpath': "//ul[@class='list-gl']/li",
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '教务通知'
     }
 ]
 
@@ -67,6 +68,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[span[@class='ovh']]",
         'title_xpath': ".//a/@title",
         'href_xpath': ".//a/@href",
+        'category': '通知公告'
     },
     {
         'college': '土木工程学院',
@@ -75,6 +77,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//section[contains(@class, 'n_list01')]/ul/li",
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
      {
         'college': '环境与安全工程学院',
@@ -83,6 +86,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[@class='list']/ul/li",
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     {
         'college': '经济与管理学院',
@@ -91,6 +95,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//section[@class='TextList bgss']//ul/li", 
         'title_xpath': "./a/p/text()", 
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     {
         'college': '生物科学与工程学院',
@@ -99,6 +104,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[@class='list_main_content']/ul/li", 
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     {
         'college': '外国语学院',
@@ -107,6 +113,16 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[@class='notice']/ul/li",
         'title_xpath': "./a/text()",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
+    },
+    {
+        'college': '外国语学院',
+        'base_url': 'https://sfl.fzu.edu.cn/',
+        'url': 'https://sfl.fzu.edu.cn/index/xygs.htm',
+        'list_xpath': "//div[@class='notice']/ul/li",
+        'title_xpath': "./a/text()",
+        'href_xpath': "./a/@href",
+        'category': '学院公示'
     },
     {
         'college': '计算机与大数据学院',
@@ -115,6 +131,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[contains(@class, 'new_list3')]/dl/dd",
         'title_xpath': "./a[2]/@title",
         'href_xpath': "./a[2]/@href",
+        'category': '通知公告'
     },
         {
         'college': '物理与信息工程学院',
@@ -123,6 +140,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[@class='text-list']/ul/li",
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     {
         'college': '化学学院',
@@ -131,6 +149,7 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//ul[@class='txtList']/li",
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     # 建筑学院没有“通知公告”
     {
@@ -140,10 +159,36 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[@class='wznr']/ul/li",
         'title_xpath': "./a/@title",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     # 厦门工艺美院不是本部，不考虑
-    # 材料学院暂且略过
-    # 法学院也是，先略过
+    {
+        'college': '材料科学与工程学院',
+        'base_url': 'https://cl.fzu.edu.cn/',
+        'url': 'https://cl.fzu.edu.cn/gsgg.htm',
+        'list_xpath': "//ul[@class='rightejlst']/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '通知公告'
+    },
+    {
+        'college': '材料科学与工程学院',
+        'base_url': 'https://cl.fzu.edu.cn/',
+        'url': 'https://cl.fzu.edu.cn/tzwj.htm',
+        'list_xpath': "//ul[@class='rightejlst']/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '通知文件'
+    },
+    {
+        'college': '法学院',
+        'base_url': 'https://law.fzu.edu.cn/',
+        'url': 'https://law.fzu.edu.cn/ggtz.htm',
+        'list_xpath': "//div[@class='body1']/ul/li",
+        'title_xpath': ".//a/@title",
+        'href_xpath': ".//a/@href",
+        'category': '通知公告'
+    },
     # 至诚学院不是本部，不考虑
     # 先进制造学院不是本部，不考虑
     # 继续教育学院不知道是什么，不考虑
@@ -155,16 +200,106 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'list_xpath': "//div[@class='list-text']/ul/li",
         'title_xpath': ".//div[@class='text']/p/text()",
         'href_xpath': "./a/@href",
+        'category': '通知公告'
     },
     # 梅努斯国际工程学院不是本部，不考虑
-    # 医学院的通知公告有3个，很神秘，暂时不考虑
+    {
+        'college': '医学院',
+        'base_url': 'https://med.fzu.edu.cn/',
+        'url': 'https://med.fzu.edu.cn/index/xytz.htm',
+        'list_xpath': "//div[@class='newlist1']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '学院通知'
+    },
+    {
+        'college': '医学院',
+        'base_url': 'https://med.fzu.edu.cn/',
+        'url': 'https://med.fzu.edu.cn/index/jxtz.htm',
+        'list_xpath': "//div[@class='newlist1']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '教学通知'
+    },
     # 未来膜学院没有自己官网
     # 医工交叉研学院为研究生学院，不考虑
     # 体育教学研究部非学生，不考虑
 ]
 
 # 本科教学页面
-TARGET_UNDERGRAD_PAGES = []
+TARGET_UNDERGRAD_PAGES = [
+    {
+        'college': '化工学院',
+        'base_url': 'https://che.fzu.edu.cn/',
+        'url': 'https://che.fzu.edu.cn/jyjx/bksjy.htm',
+        'list_xpath': "//div[span[@class='ovh']]",
+        'title_xpath': ".//a/@title",
+        'href_xpath': ".//a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '环境与安全工程学院',
+        'base_url': 'https://es.fzu.edu.cn/',
+        'url': 'https://es.fzu.edu.cn/rcpy/bksjy.htm',
+        'list_xpath': "//div[@class='list']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '生物科学与工程学院',
+        'base_url': 'https://bio.fzu.edu.cn/',
+        'url': 'https://bio.fzu.edu.cn/rcpy.htm',
+        'list_xpath': "//div[@class='list_main_content']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '物理与信息工程学院',
+        'base_url': 'https://wx.fzu.edu.cn/',
+        'url': 'https://wx.fzu.edu.cn/rcpy/bkspy/bksjx.htm',
+        'list_xpath': "//div[@class='text-list']/ul/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '化学学院',
+        'base_url': 'https://chem.fzu.edu.cn/',
+        'url': 'https://chem.fzu.edu.cn/rcpy/bksjy/bksjxggl.htm',
+        'list_xpath': "//ul[@class='txtList']/li",
+        'title_xpath': "./a/@title",
+        'href_xpath': "./a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '建筑与城乡规划学院',
+        'base_url': 'https://jzxy.fzu.edu.cn/',
+        'url': 'https://jzxy.fzu.edu.cn/rcpy1/bkspydt.htm',
+        'list_xpath': "//div[@class='text-list']/ul[@class='tdate-list']/li",
+        'title_xpath': "./a/text()[1]",
+        'href_xpath': "./a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '法学院',
+        'base_url': 'https://law.fzu.edu.cn/',
+        'url': 'https://law.fzu.edu.cn/jx2/bks.htm',
+        'list_xpath': "//div[@class='body1']/ul/li",
+        'title_xpath': ".//a/@title",
+        'href_xpath': ".//a/@href",
+        'category': '本科生教育'
+    },
+    {
+        'college': '人文社会科学学院',
+        'base_url': 'https://renwen.fzu.edu.cn/',
+        'url': 'https://renwen.fzu.edu.cn/jyjx/bksjx.htm',
+        'list_xpath': "//div[@class='list-text']/ul/li",
+        'title_xpath': ".//div[@class='text']/p/text()",
+        'href_xpath': "./a/@href",
+        'category': '本科生教育'
+    },
+]
 
-# 学院目标合集
-TARGETS_COLLEGE = TARGET_ANNOUNCEMENT_PAGES
+TARGETS_COLLEGE = TARGET_ANNOUNCEMENT_PAGES + TARGET_UNDERGRAD_PAGES
