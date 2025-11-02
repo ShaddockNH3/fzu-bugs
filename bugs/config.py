@@ -11,13 +11,18 @@ HEADERS = {
 }
 REQUEST_TIMEOUT = 20
 
-# Webhook 通知配置
+# Webhook 通知配置（仅在loop模式下生效）
 ENABLE_WEBHOOK_NOTIFICATION = False  # 设置为 True 开启HTTP通知
 NOTIFICATION_WEBHOOK_URL = "http://example.com/webhook"
 
 # 爬取间隔时间
-JWC_CRAWL_INTERVAL_SECONDS = 60 * 1
-CRAWL_INTERVAL_SECONDS = 60 * 60
+JWC_CRAWL_INTERVAL_SECONDS = 60 * 1  # 教务处爬取间隔（秒）
+CRAWL_INTERVAL_SECONDS = 60 * 60  # 学院爬取间隔（秒）
+
+# 爬取时间限制（仅在loop模式下生效）
+ENABLE_TIME_RESTRICTION = True  # 设置为 True 开启时间限制
+CRAWL_START_HOUR = 7  # 开始爬取的小时（24小时制）
+CRAWL_END_HOUR = 19  # 结束爬取的小时（24小时制，不包含此小时）
 
 # 教务处目标配置
 TARGET_JWC_PAGE = [

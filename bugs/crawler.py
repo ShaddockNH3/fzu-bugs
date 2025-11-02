@@ -13,12 +13,14 @@ class WebCrawler:
     参数:
         db_manager: 数据库管理器实例
         print_lock: 线程锁，用于线程安全打印
+        loop_mode: 是否为循环模式，决定是否发送HTTP通知
     """
     
-    def __init__(self, db_manager=None, print_lock=None):
+    def __init__(self, db_manager=None, print_lock=None, loop_mode=False):
         self.db_manager = db_manager or DatabaseManager()
         self.page_cache = {}
         self.print_lock = print_lock
+        self.loop_mode = loop_mode
     
     def _print(self, msg):
         """线程安全的打印包装器"""
@@ -122,11 +124,17 @@ class WebCrawler:
     def send_notification(self, article_info):
         """发送新文章通知
         
+        仅在loop模式下且配置开启时发送通知。
         通过HTTP POST请求将新文章信息以JSON格式发送到指定的webhook地址。
         
         参数:
             article_info: 文章信息字典
         """
+        # 单次模式不发送通知
+        if not self.loop_mode:
+            return
+        
+        # loop模式下检查是否启用通知
         if not ENABLE_WEBHOOK_NOTIFICATION or not NOTIFICATION_WEBHOOK_URL:
             return
         

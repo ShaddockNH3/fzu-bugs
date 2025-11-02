@@ -14,13 +14,29 @@ from bugs.config import (
     TARGETS_COLLEGE,
     CRAWL_INTERVAL_SECONDS,
     TARGET_JWC_PAGE,
-    JWC_CRAWL_INTERVAL_SECONDS
+    JWC_CRAWL_INTERVAL_SECONDS,
+    ENABLE_TIME_RESTRICTION,
+    CRAWL_START_HOUR,
+    CRAWL_END_HOUR
 )
 from bugs.database import DatabaseManager
 from bugs.crawler import WebCrawler
 
 # 全局锁，用于线程安全的打印和文件操作
 _print_lock = threading.Lock()
+
+
+def is_within_crawl_time():
+    """检查当前时间是否在允许爬取的时间范围内
+    
+    返回:
+        bool: 如果未启用时间限制或在允许时间内返回True，否则返回False
+    """
+    if not ENABLE_TIME_RESTRICTION:
+        return True
+    
+    current_hour = datetime.now().hour
+    return CRAWL_START_HOUR <= current_hour < CRAWL_END_HOUR
 
 
 def save_articles_to_file(articles, filename=None):
@@ -60,7 +76,7 @@ def save_articles_to_file(articles, filename=None):
 
 
 def main_once():
-    """执行一次爬取任务"""
+    """执行一次爬取任务（单次模式，不发送HTTP通知）"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if script_dir:
         os.chdir(script_dir)
@@ -68,7 +84,8 @@ def main_once():
     db_manager = DatabaseManager()
     db_manager.init_db()
     
-    crawler = WebCrawler(db_manager)
+    # 单次模式：loop_mode=False，不发送HTTP通知
+    crawler = WebCrawler(db_manager, loop_mode=False)
     new_articles = crawler.crawl_all_targets(TARGETS_COLLEGE)
     
     if new_articles:
@@ -78,9 +95,11 @@ def main_once():
 
 
 def _run_college_monitor():
-    """学院通知持续监控"""
+    """学院通知持续监控（loop模式，可发送HTTP通知）"""
     with _print_lock:
         print("[学院监控] 已启动")
+        if ENABLE_TIME_RESTRICTION:
+            print(f"[学院监控] 时间限制已启用：{CRAWL_START_HOUR}:00 - {CRAWL_END_HOUR}:00")
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if script_dir:
@@ -90,11 +109,20 @@ def _run_college_monitor():
     db_manager.init_db()
     
     while True:
+        # 检查是否在允许爬取的时间范围内
+        if not is_within_crawl_time():
+            with _print_lock:
+                current_time = time.strftime('%Y-%m-%d %H:%M:%S')
+                print(f"[学院监控 {current_time}] 当前不在爬取时间范围内，等待中...")
+            time.sleep(60)  # 每分钟检查一次
+            continue
+        
         with _print_lock:
             timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
             print(f"\n[学院监控 {timestamp}] 开始检查")
         
-        crawler = WebCrawler(db_manager, _print_lock)
+        # loop模式：loop_mode=True，根据配置决定是否发送HTTP通知
+        crawler = WebCrawler(db_manager, _print_lock, loop_mode=True)
         new_articles = crawler.crawl_all_targets(TARGETS_COLLEGE)
         
         if new_articles:
@@ -108,10 +136,12 @@ def _run_college_monitor():
 
 
 def _run_jwc_monitor():
-    """教务处通知持续监控"""
+    """教务处通知持续监控（loop模式，可发送HTTP通知）"""
     with _print_lock:
         print("[教务处监控] 已启动")
-    
+        if ENABLE_TIME_RESTRICTION:
+            print(f"[教务处监控] 时间限制已启用：{CRAWL_START_HOUR}:00 - {CRAWL_END_HOUR}:00")
+        
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if script_dir:
         os.chdir(script_dir)
@@ -120,11 +150,20 @@ def _run_jwc_monitor():
     db_manager.init_db()
     
     while True:
+        # 检查是否在允许爬取的时间范围内
+        if not is_within_crawl_time():
+            with _print_lock:
+                current_time = time.strftime('%Y-%m-%d %H:%M:%S')
+                print(f"[教务处监控 {current_time}] 当前不在爬取时间范围内，等待中...")
+            time.sleep(60)  # 每分钟检查一次
+            continue
+        
         with _print_lock:
             timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
             print(f"\n[教务处监控 {timestamp}] 开始检查")
         
-        crawler = WebCrawler(db_manager, _print_lock)
+        # loop模式：loop_mode=True，根据配置决定是否发送HTTP通知
+        crawler = WebCrawler(db_manager, _print_lock, loop_mode=True)
         new_articles = crawler.crawl_all_targets(TARGET_JWC_PAGE)
         
         if new_articles:
@@ -175,7 +214,9 @@ def main():
         
         db_manager = DatabaseManager()
         db_manager.init_db()
-        crawler = WebCrawler(db_manager)
+        
+        # 单次模式：loop_mode=False，不发送HTTP通知
+        crawler = WebCrawler(db_manager, loop_mode=False)
         
         new_articles = crawler.crawl_all_targets(all_targets)
         
