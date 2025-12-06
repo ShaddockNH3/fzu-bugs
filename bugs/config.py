@@ -138,7 +138,16 @@ TARGET_ANNOUNCEMENT_PAGES = [
         'href_xpath': "./a[2]/@href",
         'category': '通知公告'
     },
-        {
+    {
+        'college': '计算机与大数据学院',
+        'base_url': 'https://ccds.fzu.edu.cn/',
+        'url': 'https://ccds.fzu.edu.cn/xwzx/xygs.htm',
+        'list_xpath': "//div[contains(@class, 'new_list3')]/dl/dd",
+        'title_xpath': "./a[2]/@title",
+        'href_xpath': "./a[2]/@href",
+        'category': '学院公示'
+    },
+    {
         'college': '物理与信息工程学院',
         'base_url': 'https://wx.fzu.edu.cn/',
         'url': 'https://wx.fzu.edu.cn/tzgg/xytz.htm',
